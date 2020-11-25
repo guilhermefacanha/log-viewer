@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" lang="en">
+
+<h:head>
+  <f:facet name="first">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+  </f:facet>
+  <title><ui:insert name="title">Hello World JSF 2.3</ui:insert></title>
+  <link rel="shortcut icon" type="image/x-icon" href="#{resource['img/favicon.ico']}" />
+  <ui:insert name="head" />
+  <script type="text/javascript">
+	    //<![CDATA[
+	function start() {
+	    PF('statusdlg').show();
+	}
+	 
+	function stop() {
+	    PF('statusdlg').hide();
+	}
+	    //]]>
+	</script>
+</h:head>
+
+<h:body>
+
+  <p:ajaxStatus onstart="PF('statusdlg').show();" oncomplete="PF('statusdlg').hide();" style="width:32px;height:32px;position:fixed;right:7px;bottom:7px">
+  </p:ajaxStatus>
+  <p:dialog modal="true" widgetVar="statusdlg" closable="false" resizable="false" draggable="false" showHeader="false">
+    <i class="pi pi-spin pi-spinner" style="font-size: 3em"></i>
+  </p:dialog>
+
+  <div class="layout-content main" id="content-principal">
+    <!-- Primefaces component to show messages to the user -->
+    <p:messages closable="true" showDetail="true" showSummary="true">
+      <p:autoUpdate />
+    </p:messages>
+    <h:form>
+      <p:toolbar style="margin:20px 0px">
+        <f:facet name="left">
+          <p:button outcome="/tasks?faces-redirect=true" type="button" value="Tasks" icon="pi pi-tag" />
+          <p:button outcome="/categories?faces-redirect=true" type="button" value="Categories" icon="pi pi-tag" />
+        </f:facet>
+
+        <f:facet name="right">
+          <h:outputText styleClass="mright10 vcenter" value="Welcome, User"></h:outputText>
+          <h:outputText styleClass="mright10 vcenter" value="Theme:"></h:outputText>
+          <p:themeSwitcher effect="fade" value="#{userController.theme}">
+            <f:selectItems value="#{userController.themeList}" var="theme" itemValue="#{theme.value}" itemLabel="#{theme.value}" />
+            <p:ajax process="@this" />
+          </p:themeSwitcher>
+        </f:facet>
+      </p:toolbar>
+    </h:form>
+    <div class="ui-fluid">
+      <ui:insert name="content" />
+    </div>
+  </div>
+
+  <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
+  <h:outputStylesheet name="custom.css" library="css" />
+</h:body>
+
+</html>

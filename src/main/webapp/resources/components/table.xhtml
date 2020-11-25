@@ -1,0 +1,36 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+
+  <!-- 
+Componente de padronização de tabela padronizada no sistema.
+Utilizar variavel ent para referenciar cada objeto da lista
+Params:
+ - list -> java.util.List (lista de registros)
+ - select -> true|false (indica se a tabela deve exibir a coluna de seleção com checkbox
+ - selection -> java.util.List (lista de objetos selecionados)
+Exemplo:
+  <ui:decorate template="/resources/components/table.xhtml">
+    <ui:param name="styleClass" value="tb_style" />
+
+    <ui:param name="list" value="#{bean.lista}" />
+    <ui:param name="select" value="true" />
+    <ui:param name="selection" value="#{bean.selecionados}" />
+    <p:column ....
+  </ui:decorate>
+  
+ -->
+
+  <p:dataTable value="#{list}" var="ent" rows="20" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rowsPerPageTemplate="20,30,50,100"
+    currentPageReportTemplate="Showing {startRecord} à {endRecord} de {totalRecords} registros" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+    selection="#{selection}" rowKey="#{ent.id}" styleClass="#{styleClass}" resizableColumns="true" reflow="true">
+
+    <p:ajax event="rowSelectCheckbox" disabled="#{!select}" />
+    <p:ajax event="rowUnselectCheckbox" disabled="#{!select}" />
+    <p:column selectionMode="multiple" styleClass="center" rendered="#{select}" />
+
+    <ui:insert />
+
+  </p:dataTable>
+
+</ui:composition>

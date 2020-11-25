@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" lang="en">
+
+<h:head>
+  <f:facet name="first">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="shortcut icon" type="image/x-icon" href="#{resource['custom/images/logo_gfsolucoes.png']}" />
+  </f:facet>
+  <title><ui:insert name="title">PrimeFaces Olympia</ui:insert></title>
+  <h:outputScript name="js/nanoscroller.js" library="olympia-layout" />
+  <h:outputScript name="js/layout.js" library="olympia-layout" />
+  <h:outputScript name="functions.js" library="js" />
+  <ui:insert name="head" />
+  <f:view locale="#{guestPreferences.locale}" />
+</h:head>
+
+<h:body>
+  <div class="layout-wrapper #{guestPreferences.menuMode} #{guestPreferences.menuColor} #{guestPreferences.topBarColor}">
+    <ui:include src="./topbar.xhtml"></ui:include>
+    <ui:include src="./menu.xhtml"></ui:include>
+
+    <div class="layout-main">
+      <div class="layout-content" style="min-height: 300px" id="content-principal">
+        <!-- Primefaces component to show messages to the user -->
+        <p:messages closable="true" showDetail="true" showSummary="true">
+          <p:autoUpdate />
+        </p:messages>
+        <p:growl closable="true" showDetail="true" showSummary="true" sticky="true" skipDetailIfEqualsSummary="true" widgetVar="growlmsg">
+          <p:autoUpdate />
+        </p:growl>
+        <p:tooltip />
+        <p:confirmDialog closable="true" closeOnEscape="true" responsive="true" id="confirm" widgetVar="confirm" showEffect="fade" hideEffect="fade" global="true">
+          <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+          <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+        </p:confirmDialog>
+        <ui:insert name="content"></ui:insert>
+      </div>
+    </div>
+
+    <ui:include src="./footer.xhtml"></ui:include>
+
+    <p:ajaxStatus styleClass="layout-ajax-loader">
+      <f:facet name="start">
+        <i class="fa fa-circle-o-notch fa-spin layout-ajax-loader-icon" aria-hidden="true"></i>
+      </f:facet>
+
+      <f:facet name="complete">
+        <h:outputText value="" />
+      </f:facet>
+    </p:ajaxStatus>
+  </div>
+
+  <h:outputStylesheet name="css/nanoscroller.css" library="olympia-layout" />
+  <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="olympia-layout" />
+  <h:outputStylesheet defer="true" name="custom.css" library="css" />
+  <link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/fontawesome/css/all.css" />
+</h:body>
+
+</html>

@@ -1,0 +1,76 @@
+@charset "UTF-8";
+
+.blade {
+	height: 100%;
+	width: 0;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	right: 0;
+	background-color: #f1f1f1;
+	overflow-x: hidden;
+	transition: 0.5s;
+}
+
+.blade-content {
+	position: relative;
+	top: 15%;
+	width: 100%;
+	padding: 0px 15px 0px 10px;
+}
+
+.blade a {
+	padding: 8px;
+	text-decoration: none;
+	font-size: 36px;
+	color: #818181;
+	display: block;
+	transition: 0.3s;
+}
+
+.blade a:hover, .blade a:focus {
+	color: #9b6868;
+}
+
+.blade .closebtn {
+	position: absolute;
+	top: 80px;
+	right: 45px;
+	font-size: 40px;
+}
+
+.blade .header {
+	text-align: left;
+	border-bottom: solid 1px gray;
+	font-weight: bolder;
+}
+
+/**
+MOBILE
+*/
+@media only screen and (max-width: 600px) {
+	.blade-content {
+		position: relative;
+		top: 20%;
+		width: 100%;
+		padding: 0px 0px 0px 0px;
+		margin-left: -5px;
+	}
+	.blade .closebtn {
+		position: absolute;
+		top: 120px;
+		right: 25px;
+		font-size: 30px;
+	}
+}
+
+@media screen and (max-height: 450px) {
+	.blade a {
+		font-size: 20px
+	}
+	.blade .closebtn {
+		font-size: 40px;
+		top: 15px;
+		right: 35px;
+	}
+}

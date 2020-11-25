@@ -1,0 +1,24 @@
+.login-body {
+	background: #2d5d5dc4;
+}
+
+.login-body .login-topbar {
+	background: #426667;
+}
+
+.left-panel {
+	margin: 5px 5px 5px 5px;
+	border-radius:3px;
+	background: #ffffff url("#{resource['custom:images/server.png']}");
+	background-size: contain;
+}
+
+.right-panel {
+	margin: 5px 5px 5px 5px;
+	border-radius:3px;
+}
+
+
+.btn-login,.input-login,.input-login{
+	max-width: 250px;
+}

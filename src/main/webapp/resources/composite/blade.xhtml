@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+  xmlns:composite="http://java.sun.com/jsf/composite">
+
+<!-- INTERFACE -->
+<composite:interface>
+  <composite:attribute name="bladeid" type="java.lang.String" default="myblade" shortDescription="blade id" />
+  <composite:attribute name="rtl" type="java.lang.String" default="left" shortDescription="blade should open from right or left" />
+  <composite:attribute name="header" type="java.lang.String" default="" shortDescription="blade header" />
+  <composite:attribute name="renderButton" type="java.lang.String" default="false" shortDescription="blade render open button" />
+  <composite:attribute name="closeOnEspace" type="java.lang.String" default="true" shortDescription="blade close on escape button" />
+  <composite:attribute name="width" type="java.lang.String" default="94" shortDescription="blade width percentage" />
+</composite:interface>
+
+<!-- IMPLEMENTATION -->
+<composite:implementation>
+
+  <h:outputStylesheet name="css/blade.css" library="composite" target="head" />
+  <h:outputScript name="js/blade.js" library="composite" target="head" />
+
+  <div id="#{cc.attrs.bladeid}" class="blade">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeBlade('#{cc.attrs.bladeid}')">&times;</a>
+    <div class="blade-content">
+      <div class="ui-fluid">
+        <div class="ui-g">
+          <div class="ui-g-12">
+            <div class="card card-w-title">
+              <h:panelGroup rendered="#{!empty cc.attrs.header}">
+                <h1 class="header">#{cc.attrs.header}</h1>
+              </h:panelGroup>
+              <composite:insertChildren />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h:panelGroup rendered="#{cc.attrs.renderButton}">
+    <span style="cursor: pointer" onclick="openBlade('#{cc.attrs.bladeid}','#{cc.attrs.width}')">&#9776; open</span>
+  </h:panelGroup>
+
+</composite:implementation>
+
+</html>

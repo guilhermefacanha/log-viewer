@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+  <f:facet name="first">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="shortcut icon" type="image/x-icon" href="#{resource['custom/images/logo_gfsolucoes.png']}" />
+  </f:facet>
+  <f:facet name="last">
+    <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="olympia-layout" />
+    <h:outputStylesheet name="login.css" library="css" />
+  </f:facet>
+  <title>License Server - Login</title>
+</h:head>
+
+
+<h:body>
+  <div class="layout-wrapper #{guestPreferences.menuColor} #{guestPreferences.topBarColor}">
+    <div class="layout-topbar">
+      <h:link outcome="/dashboard" styleClass="layout-topbar-logo">
+        <p:graphicImage name="images/#{guestPreferences.logo}.png" library="olympia-layout" />
+      </h:link>
+    </div>
+
+    <div class="layout-main fluid">
+      <p:messages closable="true">
+        <p:autoUpdate />
+      </p:messages>
+
+      <div class="ui-g">
+        <div class="ui-g-12 ui-lg-4 card left-panel"></div>
+        <div class="ui-g-12 ui-lg-6 card right-panel">
+          <h:form>
+            <h1>SIGN IN TO LICENSE SERVER</h1>
+
+            <p>Welcome, please use the form to sign-in.</p>
+
+            <p:panelGrid layout="grid" columns="1">
+              <p:inputText id="username" placeholder="Login" required="true" requiredMessage="required field - username" value="" />
+
+              <p:password id="password" placeholder="Password" required="true" requiredMessage="required field - password" value="" />
+              <p:commandButton value="Login" />
+            </p:panelGrid>
+
+          </h:form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</h:body>
+
+</html>

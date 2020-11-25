@@ -1,0 +1,104 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+  xmlns:gf="http://xmlns.jcp.org/jsf/composite/composite" template="/WEB-INF/template/template.xhtml">
+  <ui:define name="content">
+    <!-- Example on how to call for a method from controller when the page is loaded -->
+    <f:metadata>
+      <f:viewAction action="#{taskController.initController()}" />
+      <f:viewAction action="#{taskCategoryController.initController()}" />
+      <f:viewParam name="type" value="#{taskController.typeId}"></f:viewParam>
+    </f:metadata>
+
+    <h:form>
+      <div class="ui-fluid">
+        <div class="ui-g">
+          <div class="ui-g-12">
+            <div class="card card-w-title">
+              <h1>Task Form</h1>
+              <p:panelGrid columns="2" style="border:none; max-width:500px;" layout="grid">
+                <h:outputText value="Task Type:" />
+                <gf:selectEntity list="#{taskCategoryController.list}" optionLabel="#{item.name}" value="#{taskController.ent.type}" />
+                <h:outputText value="Name:" />
+                <p:inputText value="#{taskController.ent.name}" required="true" requiredMessage="Required Field - Name" />
+                <h:outputText value="Description:" />
+                <p:inputText value="#{taskController.ent.description}" />
+                <h:outputText value="Dua Date:" />
+                <p:calendar value="#{taskController.ent.dueDate}" pattern="MM/dd/yyyy HH:mm:ss" showTodayButton="true" disabledWeekends="true" showHour="true" showOn="button" required="true" requiredMessage="Required Field - Due Date" />
+                <h:outputText value="Assigned To:" />
+                <p:inputText value="#{taskController.ent.assignedTo}" required="true" requiredMessage="Required Field - Assigned To" />
+              </p:panelGrid>
+              <p:commandButton actionListener="#{taskController.save()}" icon="fad fa-save" value="Save" update="@form" styleClass="btn-md"></p:commandButton>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-fluid">
+        <div class="ui-g">
+          <div class="ui-g-12">
+            <div class="card card-w-title">
+              <!-- Primefaces data table component -->
+              <ui:decorate template="/resources/components/table.xhtml">
+                <ui:param name="styleClass" value="tbTask" />
+
+                <ui:param name="list" value="#{taskController.list}" />
+                <ui:param name="select" value="false" />
+                <p:column styleClass="col-id" headerText="Id" filterBy="#{ent.id}" filterMatchMode="contains">
+                  <h:outputText value="#{ent.id}" />
+                </p:column>
+                <p:column headerText="Type" filterBy="#{ent.type.name}" filterMatchMode="contains">
+                  <h:outputText value="#{ent.type.name}" />
+                </p:column>
+                <p:column headerText="Name" filterBy="#{ent.name}" filterMatchMode="contains">
+                  <h:outputText value="#{ent.name}" />
+                </p:column>
+                <p:column headerText="Description" filterBy="#{ent.description}" filterMatchMode="contains">
+                  <h:outputText value="#{ent.description}" />
+                </p:column>
+                <p:column headerText="Due Date">
+                  <h:outputText value="#{ent.dueDate}">
+                    <f:convertDateTime pattern="MMM dd yyyy, HH:mm" />
+                  </h:outputText>
+                </p:column>
+                <p:column headerText="Assigned To" filterBy="#{ent.assignedTo}" filterMatchMode="contains">
+                  <h:outputText value="#{ent.assignedTo}" />
+                </p:column>
+                <p:column styleClass="control-id-md">
+                  <p:commandLink title="details" oncomplete="openBlade('myblade','65')" update="@(.myblade-pnl)" process="@this" actionListener="#{taskController.edit(ent)}">
+                    <i class="fad fa-file-search" />
+                  </p:commandLink>
+                  <p:commandLink title="edit" actionListener="#{taskController.edit(ent)}" process="@this" update="@form">
+                    <i class="fad fa-pencil" aria-hidden="true"></i>
+                  </p:commandLink>
+                  <p:commandLink title="remove" actionListener="#{taskController.remove(ent)}" process="@this" update="@form">
+                    <i class="fad fa-trash" aria-hidden="true"></i>
+                    <p:confirm header="Confirm" message="Remove record?" icon="pi pi-exclamation-triangle" />
+                  </p:commandLink>
+                </p:column>
+              </ui:decorate>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </h:form>
+
+    <!-- Blade Details -->
+    <gf:blade renderButton="false" header="Task Details" width="94">
+      <p:panelGrid styleClass="myblade-pnl" columns="1" style="border:none;" layout="grid">
+        <h:outputText value="Task Type:" />
+        <p:inputText value="#{taskController.ent.type.name}" disabled="true" />
+        <h:outputText value="Name:" />
+        <p:inputText value="#{taskController.ent.name}" disabled="true" />
+        <h:outputText value="Description:" />
+        <p:inputTextarea value="#{taskController.ent.description}" disabled="true" rows="5" autoResize="false" style="max-height:300px;"/>
+        <h:outputText value="Due Date:" />
+        <p:inputText value="#{taskController.ent.dueDate}" disabled="true">
+          <f:convertDateTime pattern="MMM dd yyyy, HH:mm" />
+        </p:inputText>
+        <h:outputText value="Assigned To:" />
+        <p:inputText value="#{taskController.ent.assignedTo}" disabled="true" />
+      </p:panelGrid>
+    </gf:blade>
+
+  </ui:define>
+</ui:composition>

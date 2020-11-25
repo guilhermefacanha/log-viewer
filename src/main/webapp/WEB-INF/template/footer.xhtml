@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+  <div id="footer" class="layout-footer clearfix">
+
+    <div class="ui-g">
+      <div class="ui-g-4 "></div>
+      <div class="ui-g-4 center">
+        <div class="footer-label">
+          <h:outputText styleClass="vcenter" value="v #{guestPreferences.version}" />
+          <br />
+          <h:outputText styleClass="vcenter" value="build: #{guestPreferences.date}" />
+        </div>
+      </div>
+      <div class="ui-g-4 footer-icons">
+        <div class="center">
+          <p:graphicImage name="images/logo-olympia.png" library="olympia-layout" />
+          <br />
+          <i class="fa fa-copyright" aria-hidden="true"></i>
+          <span>All Rights Reserved</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+		var docHeight = window.innerHeight;
+		var content = document.getElementById('content-principal').clientHeight;
+		var diff = (docHeight - content)/2;
+		var footer = document.getElementById('footer');
+		var footerHeight = footer.clientHeight+5;
+		var footerTop = footer.offsetTop;
+		diff = docHeight-(footerTop+footerHeight);
+		if(diff > 0){
+			footer.style.marginTop = diff+"px";
+			}
+	</script>
+</ui:composition>

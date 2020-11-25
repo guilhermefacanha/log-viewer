@@ -1,0 +1,153 @@
+@CHARSET "UTF-8";
+
+/**
+* CUSTOM CSS CLASSES
+**/
+.clearfix:before, .clearfix:after {
+	content: "";
+	display: table;
+	border-collapse: collapse;
+}
+
+.clearfix:after {
+	clear: both;
+}
+
+* html .clearfix {
+	zoom: 1;
+} /* IE6 */
+*:first-child+html .clearfix {
+	zoom: 1;
+} /* IE7 */
+.ui-state-error {
+	border: 1px dotted #c50038 !important;
+	color: #f03369;
+}
+
+.mright10 {
+	margin-right: 10px;
+}
+
+.vcenter {
+	vertical-align: sub;
+}
+
+.center {
+	text-align: center;
+}
+
+.btn-md {
+	max-width: 150px;
+	margin-right: 5px !important;
+}
+.btn-sm {
+	max-width: 80px;
+	margin-right: 5px !important;
+}
+
+/**
+FOOTER
+**/
+.footer-label {
+	font-weight: bold;
+	right: 50%;
+}
+
+.build-label {
+	padding-top: 25px;
+	position: absolute;
+	font-weight: bold;
+	right: 50%;
+}
+
+/**
+TABLES
+**/
+.col-id {
+	width: 40px;
+	text-align: center;
+}
+
+.control-id-sm {
+	width: 50px;
+}
+.control-id-md {
+	text-align: center;
+	width: 80px;
+}
+
+.control-id-md a, .control-id-sm a {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+/**
+MARGINS PADDING
+**/
+.mleftp10 {
+	margin-left: 10%;
+}
+
+.mleftp20 {
+	margin-left: 20%;
+}
+
+.mleftp30 {
+	margin-left: 30%;
+}
+
+.mleftp40 {
+	margin-left: 40%;
+}
+
+.mleftp50 {
+	margin-left: 50%;
+}
+
+.pleftp10 {
+	padding-left: 10%;
+}
+
+.pleftp20 {
+	padding-left: 20%;
+}
+
+.pleftp30 {
+	padding-left: 30%;
+}
+
+.pleftp40 {
+	padding-left: 40%;
+}
+
+.pleftp50 {
+	padding-left: 50%;
+}
+
+/**
+PRIMEFACE OVERRIDE
+**/
+.ui-fieldset, .ui-panel {
+	margin-bottom: 10px;
+}
+
+.ui-fieldset-legend {
+	background: none;
+	border: none;
+}
+
+.ui-messages .ui-messages-error {
+	background-color: #ff8b8b7a !important;
+	margin-left: 8px  !important;
+    margin-right: 8px  !important;
+    color: #666666 !important;
+}
+
+.ui-messages-error .ui-messages-error-icon{
+    color: #666666 !important;
+}
+
+.ui-messages-error .ui-messages-close{
+    color: #666666 !important;
+}
+

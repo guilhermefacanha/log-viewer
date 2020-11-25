@@ -1,0 +1,66 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+  template="/WEB-INF/template/template.xhtml">
+  <ui:define name="content">
+    <!-- Example on how to call for a method from controller when the page is loaded -->
+    <f:metadata>
+      <f:viewAction action="#{taskCategoryController.initController()}" />
+    </f:metadata>
+
+    <h:form prependId="false">
+      <div class="ui-fluid">
+        <div class="ui-g">
+          <div class="ui-g-12">
+            <div class="card card-w-title">
+              <h1>#{msg['task.category.title']} #{msg['label.form']}</h1>
+              <p:panelGrid columns="2" style="border:none; max-width:500px;" layout="grid">
+                <h:outputText value="#{msg['label.name']}:" />
+                <p:inputText value="#{taskCategoryController.ent.name}" required="true" requiredMessage="#{msg['base.label.required.field']} - #{msg['label.name']}" />
+              </p:panelGrid>
+              <p:commandButton actionListener="#{taskCategoryController.save()}" icon="fad fa-save" value="#{msg['label.save']}" update="@(.tbTask)" styleClass="btn-md" />
+              <p:commandButton actionListener="#{taskCategoryController.newEntity()}" icon="fad fa-undo-alt" value="#{msg['label.cancel']}" update="@form" styleClass="btn-md" rendered="#{taskCategoryController.editEnt}" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Primefaces data table component -->
+      <div class="ui-fluid">
+        <div class="ui-g">
+          <div class="ui-g-12">
+            <div class="card card-w-title">
+
+              <ui:decorate template="/resources/components/table.xhtml">
+                <ui:param name="styleClass" value="tbTask" />
+
+                <ui:param name="list" value="#{taskCategoryController.list}" />
+                <ui:param name="select" value="false" />
+
+                <p:column styleClass="col-id" headerText="Id" filterBy="#{ent.id}" filterMatchMode="contains">
+                  <h:outputText value="#{ent.id}" />
+                </p:column>
+                <p:column headerText="#{msg['label.name']}" filterBy="#{ent.name}" filterMatchMode="contains">
+                  <h:outputText value="#{ent.name}" />
+                </p:column>
+                <p:column styleClass="control-id-md">
+                  <p:link title="#{msg['task.category.newtask']}" outcome="tasks?faces-redirect=true">
+                    <i class="fa fa-tasks" aria-hidden="true"></i>
+                    <f:param name="type" value="#{ent.idHash}" />
+                  </p:link>
+                  <p:commandLink title="#{msg['label.edit']}" actionListener="#{taskCategoryController.edit(ent)}" process="@this" update="@form">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                  </p:commandLink>
+                  <p:commandLink title="#{msg['label.remove']}" actionListener="#{taskCategoryController.remove(ent)}" process="@this" update="@form">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                    <p:confirm header="Confirm" message="#{msg['label.remove']} #{msg['label.record']}?" icon="pi pi-exclamation-triangle" />
+                  </p:commandLink>
+                </p:column>
+              </ui:decorate>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </h:form>
+
+  </ui:define>
+</ui:composition>

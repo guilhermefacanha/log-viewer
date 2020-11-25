@@ -1,0 +1,89 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+  xmlns:gf="http://xmlns.jcp.org/jsf/composite/composite">
+
+  <div class="layout-topbar">
+    <h:link outcome="/model/dashboard" styleClass="layout-topbar-logo">
+      <p:graphicImage name="images/#{guestPreferences.logo}.png" library="olympia-layout" />
+    </h:link>
+
+    <a class="layout-menu-button" href="#">
+      <i class="fa fa-bars" />
+    </a>
+
+    <a href="#" class="layout-topbar-user">
+      <p:graphicImage name="images/avatar_base_2.png" library="olympia-layout" />
+    </a>
+    <ul class="layout-topbar-usermenu">
+      <li class="layout-topbar-usermenu-header">
+        <p:graphicImage name="images/avatar_base_2.png" library="olympia-layout" />
+        <div class="layout-topbar-usermenu-info">
+          <div class="layout-topbar-usermenu-name">#{userController.name}</div>
+          <div class="layout-topbar-usermenu-role">#{userController.type}</div>
+        </div>
+      </li>
+      <li>
+        <a href="#">
+          <i class="fa fa-user" />
+          <span>Profile</span>
+        </a>
+      </li>
+      <li>
+        <a onclick="openBlade('lang-blade','40')">
+          <i class="fa fa-language" />
+          <span>Language (#{guestPreferences.locale.toString()})</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="fa fa-cog" />
+          <span>Settings</span>
+        </a>
+      </li>
+      <li>
+        <p:commandLink action="#{userController.logout()}">
+          <i class="fa fa-sign-out" />
+          <span> Logout </span>
+        </p:commandLink>
+      </li>
+    </ul>
+
+    <ul class="layout-topbar-icons">
+      <li class="layout-topbar-search-item">
+        <div class="layout-topbar-search">
+          <i class="fa fa-search"></i>
+          <input type="text" placeholder="Search" />
+        </div>
+      </li>
+      <li>
+        <a href="#" class="layout-topbar-icon-purple">
+          <i class="fal fa-file" />
+        </a>
+      </li>
+      <li>
+        <a href="#" class="layout-topbar-icon-yellow">
+          <i class="far fa-paper-plane" />
+        </a>
+      </li>
+      <li>
+        <a href="#" class="layout-topbar-icon-green">
+          <i class="fad fa-calendar" />
+        </a>
+      </li>
+    </ul>
+
+    <gf:blade header="#{msg['label.modify']} #{msg['language.label']}" bladeid="lang-blade">
+      <h:form>
+        <p:panelGrid styleClass="myblade-pnl" columns="2" style="border:none; max-width:500px;" layout="grid">
+          <h:outputText value="#{msg['language.label']}" />
+          <p:selectOneMenu value="#{guestPreferences.locale}">
+            <f:selectItem itemLabel="#{msg['language.english']}" itemValue="#{msg['language.code.english']}" />
+            <f:selectItem itemLabel="#{msg['language.portuguese.brazil']}" itemValue="#{msg['language.code.brazil']}" />
+            <p:ajax event="change" update="@all" process="@this" />
+          </p:selectOneMenu>
+        </p:panelGrid>
+      </h:form>
+    </gf:blade>
+
+  </div>
+
+</ui:composition>

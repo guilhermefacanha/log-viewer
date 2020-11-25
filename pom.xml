@@ -1,0 +1,274 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>br.com.gfsolucoesti</groupId>
+	<artifactId>log-viewer</artifactId>
+	<name>log</name>
+	<version>0.0.1</version>
+	<packaging>war</packaging>
+
+	<properties>
+		<hibernate.version>5.3.14.Final-redhat-00001</hibernate.version>
+		<timestamp>${maven.build.timestamp}</timestamp>
+		<maven.build.timestamp.format>MMM dd, yyyy</maven.build.timestamp.format>
+		<sonar.host.url>http://localhost:9000</sonar.host.url>
+		<sonar.language>java</sonar.language>
+		<sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>primefaces</id>
+			<name>Primefaces Repo</name>
+			<url>https://repository.primefaces.org/</url>
+		</repository>
+		<repository>
+			<id>redhat</id>
+			<url>https://maven.repository.redhat.com/ga/</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+
+		<!-- Java EE Provided -->
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>8.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Primefaces -->
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>8.0</version>
+		</dependency>
+
+
+		<!-- Hibernate / JPA -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- H2 Memory Database -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.200</version>
+		</dependency>
+
+		<!-- MySQL JDBC -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.19</version>
+		</dependency>
+
+		<!-- PostgreSQL JDBC -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.2.10</version>
+		</dependency>
+
+		<!-- Lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.12</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.30</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.30</version>
+		</dependency>
+
+		<!-- Commons -->
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.11</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+			<version>4.1</version>
+		</dependency>
+
+		<!-- Utils Remove in PROD -->
+		<!-- https://mvnrepository.com/artifact/com.github.javafaker/javafaker -->
+		<dependency>
+			<groupId>com.github.javafaker</groupId>
+			<artifactId>javafaker</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+
+
+		<!-- Test -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>production</id>
+			<build>
+				<finalName>${project.name}</finalName>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+							<debug>false</debug>
+							<optimize>true</optimize>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>1.6.0</version>
+						<executions>
+							<execution>
+								<id>update-version</id>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+								<phase>pre-clean</phase>
+								<configuration>
+									<executable>mvn</executable>
+									<arguments>
+										<argument>release:update-versions</argument>
+										<argument>-B</argument>
+									</arguments>
+								</configuration>
+							</execution>
+							<execution>
+								<id>remove-snapshot</id>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+								<phase>pre-clean</phase>
+								<configuration>
+									<executable>mvn</executable>
+									<arguments>
+										<argument>versions:set</argument>
+										<argument>-DremoveSnapshot</argument>
+									</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>file-hanlder</id>
+								<phase>test</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<tasks>
+										<echo>================================================================</echo>
+										<echo> APLICANDO PRODUCTION PROFILE / INCREMENT VERSION				  </echo>
+										<echo>================================================================</echo>
+										<echo>Using production properties</echo>
+										<delete file="${project.build.outputDirectory}/system.properties" />
+										<copy file="src/main/resources/system.prod.properties" tofile="${project.build.outputDirectory}/system.properties" />
+										<delete file="${project.build.outputDirectory}/system.prod.properties" />
+										<echo>
+											================================================================
+										</echo>
+										<echo>Using persitence for Production Env</echo>
+										<delete file="${project.build.outputDirectory}/META-INF/persistence.xml" />
+										<copy file="${project.build.outputDirectory}/META-INF/persistence.xml_prod" tofile="${project.build.outputDirectory}/META-INF/persistence.xml" />
+										<delete file="${project.build.outputDirectory}/META-INF/persistence.xml_prod" />
+										<echo>
+											================================================================
+										</echo>
+										<echo>Using log properties for Production Env</echo>
+										<delete file="${project.build.outputDirectory}/log4j.properties" />
+										<copy file="${project.build.outputDirectory}/log4j.properties_prod" tofile="${project.build.outputDirectory}/log4j.properties" />
+										<delete file="${project.build.outputDirectory}/log4j.properties_prod" />
+									</tasks>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<!-- RODAR SONAR QUBE LINT -->
+		<profile>
+			<id>sonar</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.sonarsource.scanner.maven</groupId>
+						<artifactId>sonar-maven-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+							<debug>false</debug>
+							<optimize>true</optimize>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<build>
+		<finalName>${project.name}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.2.3</version>
+				<configuration>
+					<archive>
+						<manifestEntries>
+							<project-date>${timestamp}</project-date>
+							<project-name>${project.name}</project-name>
+							<project-version>${project.version}</project-version>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

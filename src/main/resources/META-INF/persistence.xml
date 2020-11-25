@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+
+	<persistence-unit name="unit" transaction-type="JTA">
+		<jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
+
+		<properties>
+
+			<!-- JTA JPA PROPERTIES -->
+			<property name="hibernate.transaction.jta.platform"	value="org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform" />
+			<property name="wildfly.jpa.default-unit" value="true" />
+
+			<!-- HIBERNATE SQL UPDATE PROPERTIES -->
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="false" />
+			
+			<!-- Auto generate tables -->
+			<!-- create / create-drop / update / auto 
+			-->
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			
+			<!-- Config Default Schema 
+			<property name="hibernate.default_schema" value="pmc" />
+			-->
+
+			<!-- Hibernate Conf -->
+			<property name="hibernate.max_fetch_depth" value="3" />
+
+			<!-- Enable Auto Lazy Load Session -->
+			<property name="hibernate.enable_lazy_load_no_trans" value="true" />
+
+			<!-- Pool Conf -->
+			<property name="hibernate.connection.pool_size" value="5" />
+			
+			<!-- HIBERNATE CONNECTION PROPERTIES -->
+			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+			<property name="hibernate.connection.driver_class" value="org.h2.Driver" />
+			<property name="hibernate.connection.aggressive_release" value="true" />
+			<property name="hibernate.connection.handling_mode" value="DELAYED_ACQUISITION_AND_RELEASE_AFTER_STATEMENT" />
+
+		</properties>
+	</persistence-unit>
+
+</persistence>
